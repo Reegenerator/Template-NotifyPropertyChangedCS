@@ -1,0 +1,557 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NotifyPropertyChangedRgen</name>
+    </assembly>
+    <members>
+        <member name="M:NotifyPropertyChangedRgen.CodeRendererEx.GetIsolatedOutput(System.Action,System.Boolean)">
+            <summary>
+            Instead of generating to a file. This is a workaround to return the value as string
+            </summary>
+            <param name="action"></param>
+            <param name="removeEmptyLines"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.CodeRendererEx.RestoreOutput">
+            <summary>
+            Restore saved output while returning current output
+            </summary>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.LibraryRenderer.Render">
+             <summary>
+            Renders the code as defined in the source script file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DebugMember``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Get string representation of Type.Member value
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="memberName"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DebugMembers``1(System.Collections.IEnumerable,System.String)">
+            <summary>
+            Get string value of specified member of each item in a list as type T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="memberName"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DebugMembers(System.Collections.IEnumerable,System.String)">
+            <summary>
+            Get value of specified member of each item in a list as string array
+            </summary>
+            <param name="list"></param>
+            <param name="memberName"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DebugMembers(System.Collections.IEnumerable,System.String,System.String)">
+            <summary>
+            Like DebugMember, but with two members
+            </summary>
+            <param name="list"></param>
+            <param name="memberName"></param>
+            <param name="secondMemberName"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DP(EnvDTE.TextPoint,System.Int32,Kodeo.Reegenerator.Generators.OutputPaneTraceListener)">
+            <summary>
+            Alias for DebugPosition
+            </summary>
+            <param name="point"></param>
+            <param name="charCount"></param>
+            <param name="listener"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DebugPosition(EnvDTE.TextPoint,System.Int32,Kodeo.Reegenerator.Generators.OutputPaneTraceListener)">
+            <summary>
+            Show the position of a textpoint by printing the surrounding text
+            </summary>
+            <param name="point"></param>
+            <param name="charCount"></param>
+            <param name="listener"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.DebugExtensions.DebugHere">
+            <summary>
+            Launch debugger or Break if it's already attached
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.ProjectSolutionExtensions.GetName(EnvDTE.Solution)">
+            <summary>
+            Get solution name
+            </summary>
+            <param name="solution"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.ProjectSolutionExtensions.Solution(EnvDTE.Project)">
+            <summary>
+            Get solution
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.ProjectSolutionExtensions.GetNodePath(EnvDTE.Project)">
+            <summary>
+            Get path to project node. To be used to select the node in Solution Explorer
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.ProjectSolutionExtensions.GetNodePath(EnvDTE.ProjectItem)">
+            <summary>
+             Get path to project item node. To be used to select the node in Solution Explorer
+            </summary>
+            <param name="projectItem"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.ProjectSolutionExtensions.SelectSolutionExplorerNode(EnvDTE.ProjectItem)">
+            <summary>
+            Selects project item in Solution Explorer
+            </summary>
+            <param name="projectItem"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.ProjectSolutionExtensions.SelectSolutionExplorerNode(EnvDTE80.DTE2,System.String)">
+            <summary>
+            Selects project item in Solution Explorer
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.StringExtensions.Conjoin(System.String,System.String,System.String)">
+            <summary>
+            Join two strings , only if both are not empty strings
+            </summary>
+            <param name="leftSide"></param>
+            <param name="conjunction"></param>
+            <param name="rightSide"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TextPointExtensions.InsertAndFormat(EnvDTE.TextPoint,System.String)">
+            <summary>
+            Inserts text and format the text (=Format Selection command)
+            </summary>
+            <param name="tp"></param>
+            <param name="text"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TextPointExtensions.CharRightExact(EnvDTE.EditPoint,System.Int32)">
+            <summary>
+            Unlike  CharRight, CharRightExact counts newline \r\n as two instead of one char.
+            </summary>
+            <param name="point"></param>
+            <param name="count"></param>
+            <returns></returns>
+            <remarks>
+            DTE functions that moves editpoint counts newline as single character, 
+            since we get the character count from regular regex not the DTE find, the char count is slightly off
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TextPointExtensions.CharLeftExact(EnvDTE.EditPoint,System.Int32)">
+            <summary>
+            See CharMoveExact
+            </summary>
+            <param name="point"></param>
+            <param name="count"></param>
+            <returns></returns>
+            <remarks>See CharMoveExact</remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TextPointExtensions.CharMoveExact(EnvDTE.EditPoint,System.Int32,System.Int32)">
+            <summary>
+            Moves cursor/editpoint exactly.
+            </summary>
+            <param name="point"></param>
+            <param name="count"></param>
+            <param name="direction"></param>
+            <returns></returns>
+            <remarks>
+            DTE functions that moves editpoint counts newline as single character, 
+            since we get the character count from regular regex not the DTE find, the char count is slightly off
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.OutFunctions(System.String,System.Boolean)">
+             <summary>
+            Renders the code as defined in the source script file.
+            </summary>
+            <param name="className"></param>
+            <param name="IncludeNPC"></param>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.Test">
+             <summary>
+            Renders the code as defined in the source script file.
+            </summary>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.OutProperty(System.String,System.String,System.String,System.String,System.String,System.String)">
+             <summary>
+            Renders the code as defined in the source script file.
+            </summary>
+            <param name="tag"></param>
+            <param name="propName"></param>
+            <param name="propType"></param>
+            <param name="existingComment"></param>
+            <param name="attributes"></param>
+            <param name="interfaceImpl"></param>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.RenderLibrary">
+            <summary>
+            Create the library file that contains INotifier and Notification extensions
+            has to be created before EnvDte can add the interface <see cref="!:AddInterfaceIfNotExists"/> to classes
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.RenderWithinTarget">
+            <summary>
+            Render within target file, instead of into a separate file
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.ExpandAutoProperties(NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+            <summary>
+            Expand Auto properties into a normal properties, so we can insert Notify statement in the setter
+            </summary>
+            <param name="tsWriter"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.ExpandAutoProperty(EnvDTE80.CodeProperty2,NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+            <summary>
+            Expand auto property into a normal property
+            </summary>
+            <param name="prop"></param>
+            <param name="parentWriter"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.GenInMember_ExtraNotifications(NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute,NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+            <summary>
+            Generate code that will notify other propertyName different from the member with the attribute.
+            </summary>
+            <param name="genAttr"></param>
+            <param name="parentWriter"></param>
+            <remarks>
+            Example Add NotifyPropertyChanged_GenAttribute with ExtraNotifications="OtherProperty1,OtherProperty2" to SomeProperty.
+            This method will generate code for Notify("OtherProperty1") and Notify("OtherProperty2") within that member
+            This is useful for Property that affects other Property, or a method that affects another property.
+            This has the advantage of generation/compile time verification of the properties
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.GenInMember(NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute,NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+            <summary>
+            Generates code in 
+            </summary>
+            <param name="genAttr"></param>
+            <param name="parentWriter"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TagManager`1.FindInsertionPoint(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter)">
+            <summary>
+            Find textPoint marked with '<code>'<Gen Type="InsertPoint" /></code>
+            </summary>
+            <param name="writer"></param>
+            <returns></returns>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TagManager`1.FindSegments(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter)">
+            <summary>
+            Find tagged segment within GenInfo.SearchStart and GenInfo.SearchEnd
+            </summary>
+            <returns></returns>
+            <remarks>
+            Not using EditPoint.FindPattern because it can only search from startpoint to end of doc, no way to limit to selection
+            Not using DTE Find because it has to change params of current find dialog, might screw up normal find usage
+             </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TagManager`1.InsertOrReplace(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter)">
+            <summary>
+            Insert or Replace text in taggedRange if outdated (or set to always generate)
+            </summary>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.TagManager`1.GenAttribute">
+            <summary>
+            Generator Attribute
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="T:NotifyPropertyChangedRgen.TagManager`1.TaggedSegmentWriter">
+            <summary>
+            Holds information required to generate code segments
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TagManager`1.TaggedSegmentWriter.#ctor(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter,System.String)">
+            <summary>
+            Create a new writer with the same Class, TriggeringBaseClass and GeneratorAttribute
+            </summary>
+            <param name="parentWriter">
+            source of properties to be copied
+            </param>
+            <remarks></remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.TagManager`1.TaggedSegmentWriter.IsTriggeredByBaseClass">
+            <summary>
+            True if the code generation was triggered by the base of current class
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="T:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment">
+            <summary>
+            Stores information parsed by TagManager
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.TextRange.IsValid">
+            <summary>
+            Valid if both StartPoint and EndPoint are not null
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment.ExtractXmlContent">
+            <summary>
+            Extract valid xml inside Region Name and within inline comment
+            </summary>
+            <returns></returns>
+            <remarks>
+            </remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment.FoundTag">
+            <summary>
+            Attribute generated from the found xml tag
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment.DeclaredAttribute">
+            <summary>
+            Actual attribute declared on containing property or class
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.HandleException.Render">
+             <summary>
+            Renders the code as defined in the source script file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.GeneratorAttribute.SetPropertyFromAttributeArgumentString(System.Reflection.PropertyInfo,System.String)">
+            <summary>
+            Parse Attribute Argument into the actual string value
+            </summary>
+            <param name="propInfo"></param>
+            <param name="value"></param>
+            <remarks>
+            Attribute argument is presented exactly as it was typed
+            Ex: SomeArg:="Test" would result in the Argument.Value "Test" (with quote)
+            Ex: SomeArg:=("Test") would result in the Argument.Value ("Test") (with parentheses and quote)
+            </remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.GeneratorAttribute.SegmentClass">
+            <summary>
+            Use to differentiate segments when we are calling FindSegments
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks>
+            Without a class differentiator, when searching for a class level segment, it will match all segments within the class
+            and will cause unintended deletion when the segment needs to be updated
+            </remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.GeneratorAttribute.RegenMode">
+            <summary>
+            Mode to be written in xml tag
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks>Can be overridden by GenInfo.RegenMode</remarks>
+        </member>
+        <member name="T:NotifyPropertyChangedRgen.GeneratorAttribute.TriggerTypes">
+            <summary>
+            Cause of code generation
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:NotifyPropertyChangedRgen.GeneratorAttribute.TriggerTypes.Attribute">
+            <summary>
+            Code generation is triggered because the class is marked with a GeneratorAttribute 
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:NotifyPropertyChangedRgen.GeneratorAttribute.TriggerTypes.BaseClassAttribute">
+            <summary>
+            Code generation is triggered because the baseClass is marked with a GeneratorAttribute
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute.ValidateExtraNotifications(EnvDTE80.CodeClass2,System.String[])">
+            <summary>
+            
+            </summary>
+            <returns>Array of invalid properties</returns>
+            <remarks></remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute.ExtraNotifications">
+            <summary>
+            A simple comma delimited string, since its in attribute we cannot use expression as parameters
+            But it will be checked against the type during generation, if the property does not exists there will be a warning
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.TagXmlWriter.InternalToString(System.Xml.Linq.XElement,NotifyPropertyChangedRgen.SegmentTypes)">
+            <summary>
+            Write xml based on segment type
+            </summary>
+            <param name="x"></param>
+            <param name="segmentType"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.DottedFullName(System.Type)">
+            <summary>
+            Returns full name delimited by only dots (and no +(plus sign))
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+            <remarks>Nested class is separated with +, while CodeClass delimit them using dots</remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.AsCodeElement``1(``0)">
+            <summary>
+            Use this to convert Code element into a more generic CodeElement and get CodeElement based extensions
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cc"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.GetCustomAttributes(EnvDTE80.CodeElement2)">
+            <summary>
+            Get Custom Attributes
+            </summary>
+            <param name="ce"></param>
+            <returns></returns>
+            <remarks>
+            Requires Named Argument when declaring the Custom Attribute, otherwise Name will be empty.
+            Not using reflection because it requires successful build
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.GetAncestorClasses(EnvDTE80.CodeClass2)">
+            <summary>
+            Get Bases recursively
+            </summary>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.GetSafeStartPoint(EnvDTE.CodeElement,EnvDTE.vsCMPart)">
+            <summary>
+            GetStartPoint can throw NotImplementedException. This will retry the start point without explicit attribute
+            </summary>
+            <param name="ce"></param>
+            <param name="part"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.GetCommentStartPoint(EnvDTE.TextPoint)">
+            <summary>
+            Get to the beginning of doc comments for startPoint
+            </summary>
+            <param name="startPoint"></param>
+            <returns></returns>
+            <remarks>
+            EnvDte does not have a way to get to the starting point of a code element doc comment. 
+            If we need to insert some text before a code element that has doc comments we need to go to the beggining of the comments.
+            </remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.GetTypeFromProject(EnvDTE.ProjectItem,System.String)">
+            <summary>
+            Returns a type from an assembly reference by ProjectItem.Project. Cached.
+            </summary>
+            <param name="pi"></param>
+            <param name="typeName"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.ToPropertyInfo(EnvDTE80.CodeProperty2)">
+            <summary>
+            Convert CodeProperty2 to PropertyInfo. Cached
+            </summary>
+            <param name="prop"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.GetAssemblyPath(EnvDTE.Project)">
+            <summary>
+            Currently unused. If we require a succesful build, a project that requires succesful generation would never build, catch-22
+            </summary>
+            <param name="vsProject"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.ConvertFromString(System.Type,System.String)">
+            <summary>
+            Create type instance from string
+            </summary>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.SetValueFromString(System.Reflection.PropertyInfo,System.Object,System.String)">
+            <summary>
+            Set property value from string representation
+            </summary>
+            <param name="propInfo"></param>
+            <param name="obj"></param>
+            <param name="value"></param>
+            <remarks></remarks>
+        </member>
+        <member name="M:NotifyPropertyChangedRgen.Extensions.SafeFullName(EnvDTE.CodeTypeRef)">
+            <summary>
+            Returns CodeTypeRef.AsFullName, if null, returns CodeTypeRef.AsString
+            </summary>
+            <param name="ctr"></param>
+            <returns></returns>
+            <remarks>
+            If there's compile error AsFullName will be null
+            </remarks>
+        </member>
+        <member name="P:NotifyPropertyChangedRgen.Extensions.DocCommentRegex">
+            <summary>
+            Lazy Regex property to match doc comments
+            </summary>
+            <value></value>
+            <returns></returns>
+            <remarks></remarks>
+        </member>
+    </members>
+</doc>
