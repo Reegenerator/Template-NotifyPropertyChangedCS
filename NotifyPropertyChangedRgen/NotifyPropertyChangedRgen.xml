@@ -215,7 +215,7 @@
         <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.RenderLibrary">
             <summary>
             Create the library file that contains INotifier and Notification extensions
-            has to be created before EnvDte can add the interface <see cref="!:AddInterfaceIfNotExists"/> to classes
+            has to be created before EnvDte can add the interface <see cref="M:NotifyPropertyChangedRgen.Extensions.AddInterfaceIfNotExists(EnvDTE80.CodeClass2,System.String)"/> to classes
             </summary>
             <remarks>
             
@@ -227,14 +227,14 @@
             </summary>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.ExpandAutoProperties(NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.ExpandAutoProperties(NotifyPropertyChangedRgen.TaggedSegment.Manager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.Writer)">
             <summary>
             Expand Auto properties into a normal properties, so we can insert Notify statement in the setter
             </summary>
             <param name="tsWriter"></param>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.ExpandAutoProperty(EnvDTE80.CodeProperty2,NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.ExpandAutoProperty(EnvDTE80.CodeProperty2,NotifyPropertyChangedRgen.TaggedSegment.Manager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.Writer)">
             <summary>
             Expand auto property into a normal property
             </summary>
@@ -242,7 +242,7 @@
             <param name="parentWriter"></param>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.GenInMember_ExtraNotifications(NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute,NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.GenInMember_ExtraNotifications(NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute,NotifyPropertyChangedRgen.TaggedSegment.Manager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.Writer)">
             <summary>
             Generate code that will notify other propertyName different from the member with the attribute.
             </summary>
@@ -255,7 +255,7 @@
             This has the advantage of generation/compile time verification of the properties
             </remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.GenInMember(NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute,NotifyPropertyChangedRgen.TagManager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.NotifyPropertyChanged.GenInMember(NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute,NotifyPropertyChangedRgen.TaggedSegment.Manager{NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute}.Writer)">
             <summary>
             Generates code in 
             </summary>
@@ -263,7 +263,7 @@
             <param name="parentWriter"></param>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.TagManager`1.FindInsertionPoint(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.FindInsertionPoint(NotifyPropertyChangedRgen.TaggedSegment.Manager{`0}.Writer)">
             <summary>
             Find textPoint marked with '<code>'<Gen Type="InsertPoint" /></code>
             </summary>
@@ -272,7 +272,7 @@
             <remarks>
             </remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.TagManager`1.FindSegments(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.FindSegments(NotifyPropertyChangedRgen.TaggedSegment.Manager{`0}.Writer)">
             <summary>
             Find tagged segment within GenInfo.SearchStart and GenInfo.SearchEnd
             </summary>
@@ -282,14 +282,14 @@
             Not using DTE Find because it has to change params of current find dialog, might screw up normal find usage
              </remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.TagManager`1.InsertOrReplace(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter)">
+        <member name="M:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.InsertOrReplace(NotifyPropertyChangedRgen.TaggedSegment.Manager{`0}.Writer)">
             <summary>
             Insert or Replace text in taggedRange if outdated (or set to always generate)
             </summary>
             <returns></returns>
             <remarks></remarks>
         </member>
-        <member name="P:NotifyPropertyChangedRgen.TagManager`1.GenAttribute">
+        <member name="P:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.GenAttribute">
             <summary>
             Generator Attribute
             </summary>
@@ -297,13 +297,13 @@
             <returns></returns>
             <remarks></remarks>
         </member>
-        <member name="T:NotifyPropertyChangedRgen.TagManager`1.TaggedSegmentWriter">
+        <member name="T:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.Writer">
             <summary>
             Holds information required to generate code segments
             </summary>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.TagManager`1.TaggedSegmentWriter.#ctor(NotifyPropertyChangedRgen.TagManager{`0}.TaggedSegmentWriter,System.String)">
+        <member name="M:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.Writer.#ctor(NotifyPropertyChangedRgen.TaggedSegment.Manager{`0}.Writer,System.String)">
             <summary>
             Create a new writer with the same Class, TriggeringBaseClass and GeneratorAttribute
             </summary>
@@ -312,7 +312,7 @@
             </param>
             <remarks></remarks>
         </member>
-        <member name="P:NotifyPropertyChangedRgen.TagManager`1.TaggedSegmentWriter.IsTriggeredByBaseClass">
+        <member name="P:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.Writer.IsTriggeredByBaseClass">
             <summary>
             True if the code generation was triggered by the base of current class
             </summary>
@@ -320,7 +320,7 @@
             <returns></returns>
             <remarks></remarks>
         </member>
-        <member name="T:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment">
+        <member name="T:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.FoundSegment">
             <summary>
             Stores information parsed by TagManager
             </summary>
@@ -334,7 +334,7 @@
             <returns></returns>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment.ExtractXmlContent">
+        <member name="M:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.FoundSegment.ExtractXmlContent">
             <summary>
             Extract valid xml inside Region Name and within inline comment
             </summary>
@@ -342,7 +342,7 @@
             <remarks>
             </remarks>
         </member>
-        <member name="P:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment.FoundTag">
+        <member name="P:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.FoundSegment.FoundTag">
             <summary>
             Attribute generated from the found xml tag
             </summary>
@@ -350,7 +350,7 @@
             <returns></returns>
             <remarks></remarks>
         </member>
-        <member name="P:NotifyPropertyChangedRgen.TagManager`1.FoundTaggedSegment.DeclaredAttribute">
+        <member name="P:NotifyPropertyChangedRgen.TaggedSegment.Manager`1.FoundSegment.DeclaredAttribute">
             <summary>
             Actual attribute declared on containing property or class
             </summary>
@@ -429,7 +429,7 @@
             <returns></returns>
             <remarks></remarks>
         </member>
-        <member name="M:NotifyPropertyChangedRgen.TagXmlWriter.InternalToString(System.Xml.Linq.XElement,NotifyPropertyChangedRgen.SegmentTypes)">
+        <member name="M:NotifyPropertyChangedRgen.TaggedSegment.XmlWriter.InternalToString(System.Xml.Linq.XElement,NotifyPropertyChangedRgen.TaggedSegment.Types)">
             <summary>
             Write xml based on segment type
             </summary>

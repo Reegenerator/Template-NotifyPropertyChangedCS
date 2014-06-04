@@ -126,8 +126,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TaggedSegment\SegmentTypes.cs" />
-    <Compile Include="TaggedSegment\TaggedSegmentWriter.cs" />
+    <Compile Include="TaggedSegment\Types.cs" />
+    <Compile Include="TaggedSegment\Writer.cs" />
     <Compile Include="HandleException.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>HandleException.rgt</DependentUpon>
@@ -141,12 +141,12 @@
     <Compile Include="CodeRendererEx.cs" />
     <Compile Include="Attributes\NotifyPropertyChanged_GenAttribute.cs" />
     <Compile Include="Extensions\ReflectionUtils.cs" />
-    <Compile Include="TaggedSegment\TagManager.cs" />
-    <Compile Include="TaggedSegment\TagXmlWriter.cs" />
+    <Compile Include="TaggedSegment\Manager.cs" />
+    <Compile Include="TaggedSegment\XmlWriter.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Attributes\GeneratorAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaggedSegment\FoundTaggedSegment.cs" />
+    <Compile Include="TaggedSegment\FoundSegment.cs" />
     <Compile Include="TaggedSegment\TextRange.cs" />
     <Compile Include="TypeResolver.cs" />
     <Compile Include="XmlPropertyAttribute.cs" />

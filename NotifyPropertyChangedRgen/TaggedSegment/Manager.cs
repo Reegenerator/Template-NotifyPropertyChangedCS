@@ -2,19 +2,18 @@
 
 using System.Collections.Generic;
 using System.Linq;
-
-using EnvDTE;
 using System.Text.RegularExpressions;
+using EnvDTE;
 
 /// <summary>
 /// Parse and generate code wrapped with xml information, so it can be easily found and replaced 
 /// </summary>
 /// <remarks></remarks>
-namespace NotifyPropertyChangedRgen {
-    public partial class TagManager<T> where T : GeneratorAttribute, new() {
+namespace NotifyPropertyChangedRgen.TaggedSegment {
+    public partial class Manager<T> where T : GeneratorAttribute, new() {
 
 
-        public TagManager() {
+        public Manager() {
             _Attribute = new T();
             Init();
 
@@ -71,18 +70,18 @@ namespace NotifyPropertyChangedRgen {
             
 
             var rendererAttr = _Attribute.TagPrototype.Attribute("Renderer");
-            var commentPattern = string.Format(commentPatternFormat, _Attribute.TagPrototype.Name.LocalName, rendererAttr.Name, rendererAttr.Value, TagXmlWriter.CodeCommentPrefix);
+            var commentPattern = string.Format(commentPatternFormat, _Attribute.TagPrototype.Name.LocalName, rendererAttr.Name, rendererAttr.Value, XmlWriter.CodeCommentPrefix);
             _CommentRegex = new System.Text.RegularExpressions.Regex(commentPattern, Extensions.DefaultRegexOption);
             string regPattern = string.Format(regionPatternFormat, _Attribute.TagPrototype.Name.LocalName, rendererAttr.Name, rendererAttr.Value, RegionBeginKeyword, RegionEndKeyword);
             _RegionRegex = new System.Text.RegularExpressions.Regex(regPattern, Extensions.DefaultRegexOption);
 
         }
 
-        private Regex GetRegexByType(SegmentTypes segmentType) {
+        private Regex GetRegexByType(Types segmentType) {
             switch (segmentType) {
-                case SegmentTypes.Region:
+                case Types.Region:
                     return RegionRegex;
-                case SegmentTypes.Statements:
+                case Types.Statements:
                     return CommentRegex;
                 default:
                     return null;
@@ -119,16 +118,16 @@ namespace NotifyPropertyChangedRgen {
         /// <returns></returns>
         /// <remarks>
         /// </remarks>
-        public FoundTaggedSegment FindInsertionPoint(TaggedSegmentWriter writer) {
+        public FoundSegment FindInsertionPoint(Writer writer) {
 
             return FindSegments(writer, GeneratorAttribute.TagTypes.InsertPoint).FirstOrDefault();
         }
-        public FoundTaggedSegment[] FindGeneratedSegments(TaggedSegmentWriter writer) {
+        public FoundSegment[] FindGeneratedSegments(Writer writer) {
 
             return FindSegments(writer, GeneratorAttribute.TagTypes.Generated).Where((x) => x.FoundTag.SegmentClass == writer.GenAttribute.SegmentClass).ToArray();
 
         }
-        public IEnumerable<FoundTaggedSegment> FindSegments(TaggedSegmentWriter writer, GeneratorAttribute.TagTypes tagType) {
+        public IEnumerable<FoundSegment> FindSegments(Writer writer, GeneratorAttribute.TagTypes tagType) {
             return FindSegments(writer).Where((x) => x.FoundTag.Type == tagType);
         }
 
@@ -140,14 +139,14 @@ namespace NotifyPropertyChangedRgen {
         /// Not using EditPoint.FindPattern because it can only search from startpoint to end of doc, no way to limit to selection
         /// Not using DTE Find because it has to change params of current find dialog, might screw up normal find usage
         ///  </remarks>
-        public FoundTaggedSegment[] FindSegments(TaggedSegmentWriter info) {
+        public FoundSegment[] FindSegments(Writer info) {
 
             var regex = GetRegexByType(info.SegmentType);
 
             //Using regex in FindPattern does
             var text = info.GetSearchText();
             var matches = regex.Matches(text);
-            var segments = new List<FoundTaggedSegment>();
+            var segments = new List<FoundSegment>();
             foreach (var m in matches.Cast<Match>()) {
                 EditPoint matchStart = null;
                 EditPoint matchEnd = null;
@@ -161,14 +160,14 @@ namespace NotifyPropertyChangedRgen {
 
                 }
 
-                var segment = new FoundTaggedSegment(this, info.GenAttribute, matchStart, matchEnd);
+                var segment = new FoundSegment(this, info.GenAttribute, matchStart, matchEnd);
                 if (segment.IsValid) {
                     segments.Add(segment);
                 }
             }
             return segments.ToArray();
         }
-        public bool IsAnyOutdated(TaggedSegmentWriter info) {
+        public bool IsAnyOutdated(Writer info) {
             var segments = FindGeneratedSegments(info);
             return !segments.Any() || segments.Any((x) => x.IsOutdated());
         }
@@ -179,7 +178,7 @@ namespace NotifyPropertyChangedRgen {
         /// </summary>
         /// <returns></returns>
         /// <remarks></remarks>
-        public bool InsertOrReplace(TaggedSegmentWriter info) {
+        public bool InsertOrReplace(Writer info) {
             var taggedRanges = FindGeneratedSegments(info);
             var needInsert = false;
             if (taggedRanges.Length == 0) {
@@ -210,7 +209,7 @@ namespace NotifyPropertyChangedRgen {
             }
             return true;
         }
-        public void Remove(TaggedSegmentWriter info) {
+        public void Remove(Writer info) {
             var taggedRanges = FindSegments(info);
             foreach (var t in taggedRanges) {
                 t.Delete();

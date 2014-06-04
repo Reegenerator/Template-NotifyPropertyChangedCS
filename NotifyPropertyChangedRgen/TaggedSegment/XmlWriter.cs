@@ -1,11 +1,4 @@
 ﻿//Formerly VB project-level imports:
-using System;
-using System.Linq;
-
-using System.Xml;
-using System.IO;
-using System.Xml.Linq;
-
 
 /// <summary>
 /// A custom XmlTextWriter that generate xml embedded in comment or region name
@@ -17,15 +10,21 @@ using System.Xml.Linq;
 /// newline before content cannot be done by overriding WriteEndElement(this writes blah end tag)
 /// What we need is a private function in XmlTextWriter, called WriteEndStartTag
 /// </remarks>
-namespace NotifyPropertyChangedRgen
+using System;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace NotifyPropertyChangedRgen.TaggedSegment
 {
-	public class TagXmlWriter : XmlTextWriter
+	public class XmlWriter : XmlTextWriter
 	{
 		public const string CodeCommentPrefix = "//";
-		public SegmentTypes SegmentType {get; set;}
+		public Types SegmentType {get; set;}
 
 		//Property IsRegion As Boolean
-		public TagXmlWriter(StringWriter writer) : base(writer)
+		public XmlWriter(StringWriter writer) : base(writer)
 		{
 			this.QuoteChar = '\'';
 		}
@@ -33,7 +32,7 @@ namespace NotifyPropertyChangedRgen
 		public override void WriteStartElement(string prefix, string localname, string ns)
 		{
 			//insert inline comment character before the start tag
-			if (SegmentType == SegmentTypes.Statements)
+			if (SegmentType == Types.Statements)
 			{
 				this.WriteString(CodeCommentPrefix);
 			}
@@ -43,7 +42,7 @@ namespace NotifyPropertyChangedRgen
 		public override void WriteFullEndElement()
 		{
 			//insert inline comment character before the end tag
-			if (SegmentType == SegmentTypes.Statements)
+			if (SegmentType == Types.Statements)
 			{
 				this.WriteString(CodeCommentPrefix);
 			}
@@ -53,7 +52,7 @@ namespace NotifyPropertyChangedRgen
 		}
 		public static string ToCommentedString(XElement x)
 		{
-			return InternalToString(x, SegmentTypes.Statements);
+			return InternalToString(x, Types.Statements);
 		}
 
 		/// <summary>
@@ -63,10 +62,10 @@ namespace NotifyPropertyChangedRgen
 		/// <param name="segmentType"></param>
 		/// <returns></returns>
 		/// <remarks></remarks>
-		private static string InternalToString(XElement x, SegmentTypes segmentType)
+		private static string InternalToString(XElement x, Types segmentType)
 		{
 			StringWriter writer = new StringWriter();
-			TagXmlWriter cw = new TagXmlWriter(writer) {SegmentType = segmentType};
+			XmlWriter cw = new XmlWriter(writer) {SegmentType = segmentType};
 			//Strip Namespace if it's an Xelement
 			x = StripNS(x);
 			//write
@@ -83,7 +82,7 @@ namespace NotifyPropertyChangedRgen
 		public static string ToRegionNameString(XElement x)
 		{
 
-			var xml = InternalToString(x, SegmentTypes.Region);
+			var xml = InternalToString(x, Types.Region);
 			//Escape quote to double quote, so it will be valid as region name
 			var res = EscapeQuote(xml);
 			return res;

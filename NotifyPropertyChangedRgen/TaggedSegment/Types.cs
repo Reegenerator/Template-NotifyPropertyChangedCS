@@ -1,8 +1,8 @@
 ﻿//Formerly VB project-level imports:
 
-namespace NotifyPropertyChangedRgen
+namespace NotifyPropertyChangedRgen.TaggedSegment
 {
-	public enum SegmentTypes
+	public enum Types
 	{
 		Region,
 		Statements

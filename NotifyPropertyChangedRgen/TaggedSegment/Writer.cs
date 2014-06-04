@@ -1,26 +1,26 @@
 ﻿//Formerly VB project-level imports:
+
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Xml.Linq;
 using EnvDTE;
 using EnvDTE80;
-using System.Text;
-using System.Reflection;
-using System.Xml.Linq;
 
-
-namespace NotifyPropertyChangedRgen {
-    public partial class TagManager<T> where T : GeneratorAttribute, new() {
+namespace NotifyPropertyChangedRgen.TaggedSegment {
+    public partial class Manager<T> where T : GeneratorAttribute, new() {
 
         /// <summary>
         /// Holds information required to generate code segments
         /// </summary>
         /// <remarks></remarks>
-        public class TaggedSegmentWriter {
+        public class Writer {
 
 
 
-            public TaggedSegmentWriter() {
+            public Writer() {
                 //Do nothing
                 GenAttribute = new T();
             }
@@ -32,7 +32,7 @@ namespace NotifyPropertyChangedRgen {
             /// source of properties to be copied
             /// </param>
             /// <remarks></remarks>
-            public TaggedSegmentWriter(TaggedSegmentWriter parentWriter, string segClass = "") {
+            public Writer(Writer parentWriter, string segClass = "") {
                 Class = parentWriter.Class;
                 TriggeringBaseClass = parentWriter.TriggeringBaseClass;
                 //Clone instead of reusing parent's attribute, because they may have different property values
@@ -49,7 +49,7 @@ namespace NotifyPropertyChangedRgen {
             public TextPoint SearchEnd { get; set; }
             public TextPoint InsertStart { get; set; }
             public TextPoint InsertedEnd { get; set; }
-            public SegmentTypes SegmentType { get; set; }
+            public Types SegmentType { get; set; }
             public string Content { get; set; }
             public string ProcessedContent { get; set; }
             public string TagComment { get; set; }
@@ -152,12 +152,12 @@ namespace NotifyPropertyChangedRgen {
                 //?Newline is added surrounding the text because we can't figure out how to add newline in TagXmlWriter
                 var xml = GenXmlTag();
                 xml.Add(Environment.NewLine + Content + Environment.NewLine);
-                return TagXmlWriter.ToCommentedString(xml);
+                return XmlWriter.ToCommentedString(xml);
             }
 
             public string CreateTaggedRegionName() {
                 var xml = GenXmlTag();
-                var regionNameXml = TagXmlWriter.ToRegionNameString(xml);
+                var regionNameXml = XmlWriter.ToRegionNameString(xml);
                 return TagComment.Conjoin("\t", regionNameXml);
             }
 
@@ -168,9 +168,9 @@ namespace NotifyPropertyChangedRgen {
 
             public string GenText() {
                 switch (SegmentType) {
-                    case SegmentTypes.Region:
+                    case Types.Region:
                         return GenTaggedRegionText();
-                    case SegmentTypes.Statements:
+                    case Types.Statements:
                         return CreateTaggedCommentText();
                     default:
                         throw new Exception("Unknown SegmentType");

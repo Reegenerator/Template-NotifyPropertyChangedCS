@@ -1,11 +1,12 @@
 ﻿//Formerly VB project-level imports:
-using System;
-using System.Xml.Linq;
-using System.Text.RegularExpressions;
 
-namespace NotifyPropertyChangedRgen
+using System;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
+
+namespace NotifyPropertyChangedRgen.TaggedSegment
 {
-	public partial class TagManager<T> where T: GeneratorAttribute, new()
+	public partial class Manager<T> where T: GeneratorAttribute, new()
 	{
 
 
@@ -13,7 +14,7 @@ namespace NotifyPropertyChangedRgen
 		/// Stores information parsed by TagManager
 		/// </summary>
 		/// <remarks></remarks>
-		public class FoundTaggedSegment : TextRange
+		public class FoundSegment : TextRange
 		{
 			/// <summary>
 			/// Attribute generated from the found xml tag
@@ -29,10 +30,10 @@ namespace NotifyPropertyChangedRgen
 			/// <returns></returns>
 			/// <remarks></remarks>
 			public T DeclaredAttribute {get; set;}
-			public TagManager<T> Manager {get; set;}
+			public Manager<T> Manager {get; set;}
 			private Regex Regex;
 
-		    public FoundTaggedSegment(TagManager<T> mgr, T sourceAttr, EnvDTE.TextPoint start, EnvDTE.TextPoint endP)
+		    public FoundSegment(Manager<T> mgr, T sourceAttr, EnvDTE.TextPoint start, EnvDTE.TextPoint endP)
 			{
 				Manager = mgr;
 				StartPoint = start;
@@ -42,7 +43,7 @@ namespace NotifyPropertyChangedRgen
 			}
 
 			public DateTime? GenerateDate {get; set;}
-			public SegmentTypes SegmentType {get; set;}
+			public Types SegmentType {get; set;}
 
 
 
@@ -66,13 +67,13 @@ namespace NotifyPropertyChangedRgen
 				var firstline = StartPoint.CreateEditPoint().GetLineText();
 			    if (firstline.Trim().StartsWith(RegionBeginKeyword))
 				{
-					this.SegmentType = SegmentTypes.Region;
+					this.SegmentType = Types.Region;
 					Regex = Manager.RegionRegex;
 
 				}
 				else
 				{
-					this.SegmentType = SegmentTypes.Statements;
+					this.SegmentType = Types.Statements;
 					Regex = Manager.CommentRegex;
 				}
 			}
@@ -91,10 +92,10 @@ namespace NotifyPropertyChangedRgen
 				var xmlContent = "";
 				switch (this.SegmentType)
 				{
-					case SegmentTypes.Region:
+					case Types.Region:
 						xmlContent = Manager.RegionRegex.Replace(text, "${xml}");
 						break;
-					case SegmentTypes.Statements:
+					case Types.Statements:
 						xmlContent = Manager.CommentRegex.Replace(text, "${tag}${content}${tagend}");
 						break;
 				}
@@ -111,12 +112,13 @@ namespace NotifyPropertyChangedRgen
 					return;
 				}
 				var xml = ExtractXmlContent();
+                var xdoc = XDocument.Parse(xml);
+                var xr = xdoc.Root;
+
 				try
 				{
-					var xdoc = XDocument.Parse(xml);
-					var xr = xdoc.Root;
-
-					GenerateDate = (xr.Attribute("Date").Value != null) ? Convert.ToDateTime(xr.Attribute("Date").Value) : (DateTime?) null;
+				    var dateAttribute = xr != null ? xr.Attribute("Date"):null;
+                    GenerateDate = dateAttribute != null ? Convert.ToDateTime(xr.Attribute("Date").Value) : (DateTime?)null;
 					FoundTag = new T();
 					FoundTag.CopyPropertyFromTag(xr);
 				}

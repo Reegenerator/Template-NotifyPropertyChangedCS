@@ -38,6 +38,10 @@ namespace WinformTest
 				return _DefaultInstance;
 			}
 		}
+
+        private void TextBox5_TextChanged(object sender, EventArgs e) {
+
+        }
 	}
 
 }

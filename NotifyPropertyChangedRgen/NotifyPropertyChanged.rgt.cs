@@ -9,11 +9,11 @@ using System.Linq;
 using EnvDTE;
 using EnvDTE80;
 using Kodeo.Reegenerator.Generators;
+using NotifyPropertyChangedRgen.TaggedSegment;
 using ThisClass = NotifyPropertyChangedRgen.NotifyPropertyChanged;
 using System.IO;
-
-using TaggedSegmentWriter = NotifyPropertyChangedRgen.TagManager<NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute>.TaggedSegmentWriter;
-using FoundTaggedSegment = NotifyPropertyChangedRgen.TagManager<NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute>.FoundTaggedSegment;
+using Writer = NotifyPropertyChangedRgen.TaggedSegment.Manager<NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute>.Writer;
+using FoundSegment = NotifyPropertyChangedRgen.TaggedSegment.Manager<NotifyPropertyChangedRgen.NotifyPropertyChanged_GenAttribute>.FoundSegment;
 
 /// <summary>
 /// To use this renderer, attach to the target file. And add AutoGenerateAttribute to the class
@@ -24,7 +24,7 @@ namespace NotifyPropertyChangedRgen {
 
 
         private static readonly string INotifyPropertyChangedName = typeof(INotifyPropertyChanged).FullName;
-        private static readonly TagManager<NotifyPropertyChanged_GenAttribute> SharedTagManager;
+        private static readonly Manager<NotifyPropertyChanged_GenAttribute> SharedManager;
         private readonly Type AttrType = typeof(NotifyPropertyChanged_GenAttribute);
 
 
@@ -36,17 +36,17 @@ namespace NotifyPropertyChangedRgen {
 
         static NotifyPropertyChanged() {
             //var tagName = (new NotifyPropertyChanged_GenAttribute()).TagName;
-            SharedTagManager = new TagManager<NotifyPropertyChanged_GenAttribute>();
+            SharedManager = new Manager<NotifyPropertyChanged_GenAttribute>();
         }
-        public TagManager<NotifyPropertyChanged_GenAttribute> TagManager {
+        public Manager<NotifyPropertyChanged_GenAttribute> Manager {
             get {
-                return SharedTagManager;
+                return SharedManager;
             }
         }
 
         /// <summary>
         /// Create the library file that contains INotifier and Notification extensions
-        /// has to be created before EnvDte can add the interface <see cref="AddInterfaceIfNotExists"/> to classes
+        /// has to be created before EnvDte can add the interface <see cref="NotifyPropertyChangedRgen.Extensions.AddInterfaceIfNotExists"/> to classes
         /// </summary>
         /// <remarks>
         /// 
@@ -89,14 +89,14 @@ namespace NotifyPropertyChangedRgen {
             }
             var textDoc = classItem.Document.ToTextDocument();
 
-            var genInfo = new TaggedSegmentWriter() { SearchStart = textDoc.StartPoint, InsertStart = textDoc.StartPoint, SearchEnd = textDoc.EndPoint, SegmentType = SegmentTypes.Region };
-            if (TagManager.IsAnyOutdated(genInfo)) {
+            var genInfo = new Writer() { SearchStart = textDoc.StartPoint, InsertStart = textDoc.StartPoint, SearchEnd = textDoc.EndPoint, SegmentType = Types.Region };
+            if (Manager.IsAnyOutdated(genInfo)) {
                 //generate text if outdated
                 var extRgen = new LibraryRenderer(prj.DefaultNamespace);
 
                 var code = extRgen.RenderToString();
                 genInfo.Content = code;
-                TagManager.InsertOrReplace(genInfo);
+                Manager.InsertOrReplace(genInfo);
                 classItem.Save("");
             }
 
@@ -126,7 +126,7 @@ namespace NotifyPropertyChangedRgen {
                 foreach (var cc in validClasses) {
                     sw.Start();
 
-                    var classWriter = new TaggedSegmentWriter() { Class = cc };
+                    var classWriter = new Writer() { Class = cc };
 
                     //!generate
                     GenerateInClass(classWriter);
@@ -136,7 +136,7 @@ namespace NotifyPropertyChangedRgen {
 
                         //!for each subclass
                         foreach (var derivedC in cc.GetSubclasses()) {
-                            var childInfo = new TaggedSegmentWriter() { TriggeringBaseClass = cc, Class = derivedC };
+                            var childInfo = new Writer() { TriggeringBaseClass = cc, Class = derivedC };
                             //generate
                             GenerateInClass(childInfo);
                             //combine status
@@ -198,7 +198,7 @@ namespace NotifyPropertyChangedRgen {
         /// </summary>
         /// <param name="tsWriter"></param>
         /// <remarks></remarks>
-        public void ExpandAutoProperties(TaggedSegmentWriter tsWriter) {
+        public void ExpandAutoProperties(Writer tsWriter) {
             var autoProps = tsWriter.Class.GetAutoProperties().Where((x) => !((new NotifyPropertyChanged_GenAttribute(x)).IsIgnored));
             foreach (var p in autoProps) {
                 ExpandAutoProperty(p, tsWriter);
@@ -210,7 +210,7 @@ namespace NotifyPropertyChangedRgen {
         /// <param name="prop"></param>
         /// <param name="parentWriter"></param>
         /// <remarks></remarks>
-        public void ExpandAutoProperty(CodeProperty2 prop, TaggedSegmentWriter parentWriter)
+        public void ExpandAutoProperty(CodeProperty2 prop, Writer parentWriter)
 		{
 
 			//Save existing doc comment
@@ -221,9 +221,9 @@ namespace NotifyPropertyChangedRgen {
 			var interfaceImpl = prop.GetInterfaceImplementation();
 
 
-			var tsWriter = new TaggedSegmentWriter(parentWriter)
+			var tsWriter = new Writer(parentWriter)
 			{
-			    SegmentType = SegmentTypes.Region,
+			    SegmentType = Types.Region,
 			    TagComment = string.Format("{0} auto expanded by", prop.Name),
 			    GenAttribute = {RegenMode = GeneratorAttribute.RegenModes.Once}
 			};
@@ -250,7 +250,7 @@ namespace NotifyPropertyChangedRgen {
         /// This is useful for Property that affects other Property, or a method that affects another property.
         /// This has the advantage of generation/compile time verification of the properties
         /// </remarks>
-        private string GenInMember_ExtraNotifications(NotifyPropertyChanged_GenAttribute genAttr, TaggedSegmentWriter parentWriter)
+        private string GenInMember_ExtraNotifications(NotifyPropertyChanged_GenAttribute genAttr, Writer parentWriter)
         {
 
             //Render extra notifications (notifications for other related properties)
@@ -279,7 +279,7 @@ namespace NotifyPropertyChangedRgen {
         /// <param name="genAttr"></param>
         /// <param name="parentWriter"></param>
         /// <remarks></remarks>
-        private void GenInMember(NotifyPropertyChanged_GenAttribute genAttr, TaggedSegmentWriter parentWriter)
+        private void GenInMember(NotifyPropertyChanged_GenAttribute genAttr, Writer parentWriter)
 		{
 			var prop = genAttr.ParentProperty;
 			//!Parent can be either CodeFunction(only for ExtraNotifications) or CodeProperty
@@ -301,11 +301,11 @@ namespace NotifyPropertyChangedRgen {
 
 			//Code Element, could be property setter or a method
 			var codeElement = (CodeFunction2)((prop != null) ? prop.Setter : genAttr.ParentFunction);
-			var memberWriter = new TaggedSegmentWriter(parentWriter) {GenAttribute = genAttr, SearchStart = codeElement.StartPoint, SearchEnd = codeElement.EndPoint, Content = code, SegmentType = SegmentTypes.Statements};
+			var memberWriter = new Writer(parentWriter) {GenAttribute = genAttr, SearchStart = codeElement.StartPoint, SearchEnd = codeElement.EndPoint, Content = code, SegmentType = Types.Statements};
 
 			//Find insertion point
 			EditPoint insertPoint = null;
-			var insertTag = TagManager.FindInsertionPoint(memberWriter);
+			var insertTag = Manager.FindInsertionPoint(memberWriter);
 			if (insertTag == null)
 			{
 				//!No insertion point tag specified, by default insert as last line of setter
@@ -322,10 +322,10 @@ namespace NotifyPropertyChangedRgen {
 			}
 
 			memberWriter.InsertStart = insertPoint;
-			TagManager.InsertOrReplace(memberWriter);
+			Manager.InsertOrReplace(memberWriter);
 
 		}
-        private void GenInMembers(TaggedSegmentWriter tsWriter) {
+        private void GenInMembers(Writer tsWriter) {
             //!Generate in properties
             var props = tsWriter.Class.GetProperties().ToArray();
             var propAttrs = (
@@ -364,7 +364,7 @@ namespace NotifyPropertyChangedRgen {
             return ancestorClasses.FirstOrDefault((x) => x.ImplementedInterfaces.OfType<CodeInterface>().Any((i) => i.FullName == interfaceName));
 
         }
-        private void GenerateNotifyFunctions(TaggedSegmentWriter tsWriter)
+        private void GenerateNotifyFunctions(Writer tsWriter)
 		{
 			if (tsWriter.IsTriggeredByBaseClass)
 			{
@@ -403,18 +403,18 @@ namespace NotifyPropertyChangedRgen {
             //var name = tsWriter.Class.GetText(vsCMPart.vsCMPartName);
 			//copy info, instead of using the passed parameter, prevent unintentionally using irrelevant property set 
 			// by other code
-			var newInfo = new TaggedSegmentWriter(tsWriter)
+			var newInfo = new Writer(tsWriter)
 			{
 			    SearchStart = tsWriter.Class.StartPoint,
 			    SearchEnd = tsWriter.Class.EndPoint,
 			    InsertStart = insertPoint,
 			    Content = code,
-			    SegmentType = SegmentTypes.Region,
+			    SegmentType = Types.Region,
 			    TagComment = "INotifier Functions",
 			    GenAttribute = {SegmentClass = "INotifierFunctions"}
 			};
 
-            var isUpdated = TagManager.InsertOrReplace(newInfo);
+            var isUpdated = Manager.InsertOrReplace(newInfo);
 			if (isUpdated)
 			{
                 var fullname = tsWriter.Class.ProjectItem.GetDefaultNamespace().DotJoin(LibraryRenderer.INotifierName);
@@ -423,7 +423,7 @@ namespace NotifyPropertyChangedRgen {
 
 
 		}
-        public void GenerateInClass(TaggedSegmentWriter writer) {
+        public void GenerateInClass(Writer writer) {
 
             GenerateNotifyFunctions(writer);
             ExpandAutoProperties(writer);
@@ -431,7 +431,7 @@ namespace NotifyPropertyChangedRgen {
             AppendWarning(writer);
         }
 
-        private void AppendWarning(TaggedSegmentWriter writer) {
+        private void AppendWarning(Writer writer) {
             CodeProperty2[] autoProperties = writer.Class.GetAutoProperties().Where((x) => !((new NotifyPropertyChanged_GenAttribute(x)).IsIgnored)).ToArray();
             //?Warn unprocesssed autoproperties
             if (autoProperties.Any()) {
