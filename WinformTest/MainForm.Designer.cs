@@ -131,9 +131,9 @@ namespace WinformTest
             this.Label5.AutoSize = true;
             this.Label5.Location = new System.Drawing.Point(36, 46);
             this.Label5.Name = "Label5";
-            this.Label5.Size = new System.Drawing.Size(58, 13);
+            this.Label5.Size = new System.Drawing.Size(121, 13);
             this.Label5.TabIndex = 1;
-            this.Label5.Text = "Last Name";
+            this.Label5.Text = "Last Name (Not notified)";
             // 
             // TextBox6
             // 

@@ -18,7 +18,7 @@ namespace WinformTest
 
 		private void Init()
 		{
-			Person = new Person {FirstName = "Bill", LastName = "Gates", Address = "Earth", Age = "42"};
+			Person = new Person {FirstName = "Bill", LastName = "Gates", Address = "Earth", Age = 42};
 			PersonBindingSource.DataSource = Person;
 		}
 
